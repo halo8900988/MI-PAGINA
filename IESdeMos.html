@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>A escala de pH de EcoMares</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .ph-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+    }
+
+    .ph-container {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 6px;
+    }
+
+    .ph-item {
+      width: 200px;
+      height: 38px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .ph-item:hover {
+      transform: scale(1.02);
+      filter: brightness(1.1);
+    }
+
+    .especial {
+      border: 3px solid black;
+      box-shadow: 0 0 10px #00000055;
+    }
+
+    .ph-label {
+      position: absolute;
+      left: -50px;
+      font-size: 16px;
+      color: #333;
+      font-weight: normal;
+    }
+
+    .mar-labels {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 6px;
+    }
+
+    .mar-label {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: #000;
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    .mar-label.empty {
+      visibility: hidden;
+    }
+
+    .info-box {
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      white-space: pre-line;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #777;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>A escala de pH de <strong>EcoMares</strong></h1>
+  <p style="text-align:center;">Prema nun nivel para ver máis información.</p>
+
+  <div class="ph-wrapper">
+    <div class="ph-container">
+      <script>
+        const colores = [
+          "#8B0000", "#B22222", "#DC143C", "#FF4500", "#FF8C00", "#FFD700", "#ADFF2F",
+          "#7CFC00", "#00FF7F", "#00CED1", "#1E90FF", "#4169E1", "#6A5ACD", "#8A2BE2", "#551A8B"
+        ];
+
+        const datos = {
+          0: "pH 0 – Ácido sulfúrico puro (Extremadamente corrosivo).",
+          1: "pH 1 – Ácido clorhídrico.",
+          2: "pH 2 – Zume gástrico.",
+          3: "pH 3 – Vinagre.",
+          4: "pH 4 – Zume de laranxa.",
+          5: "pH 5 – Café negro.",
+          6: "pH 6 – Leite.",
+          7: "pH 7 – Auga destilada.\n🌊 Estímase que o océano en 2100 terá este pH por mor da acidificación.",
+          8: "pH 8 – Auga de mar.\n🌊 En 1800, o océano tiña un pH de 8.2\n🌊 En 2025, descendeu a pH 8.1.",
+          9: "pH 9 – Pasta de dentes.",
+          10: "pH 10 – Xabón suave.",
+          11: "pH 11 – Amoníaco.",
+          12: "pH 12 – Lixivia.",
+          13: "pH 13 – Limpadores industriais.",
+          14: "pH 14 – Hidróxido de sodio."
+        };
+
+        const etiquetas = {
+          8: "🌊 Mar: 1800 (pH 8.2) e 2025 (pH 8.1)",
+          7: "🌊 Mar: 2100 (estimado pH 7.8)"
+        };
+
+        for (let i = 14; i >= 0; i--) {
+          const color = colores[i] || "#999";
+          const clase = (i === 8 || i === 7) ? "ph-item especial" : "ph-item";
+
+          document.write(`
+            <div class="${clase}" style="background-color: ${color}" onclick="mostrarInfo(${i})">
+              <div class='ph-label'>pH ${i}</div>
+            </div>
+          `);
+        }
+      </script>
+    </div>
+
+    <div class="mar-labels">
+      <script>
+        for (let i = 14; i >= 0; i--) {
+          if (etiquetas[i]) {
+            document.write(`<div class="mar-label">${etiquetas[i]}</div>`);
+          } else {
+            document.write(`<div class="mar-label empty">.</div>`);
+          }
+        }
+      </script>
+    </div>
+  </div>
+
+  <div class="info-box" id="infoBox">
+    Prema nunha barra para ver detalles.
+  </div>
+
+  <footer>
+    EcoMares (Israel Romero, Isis Pichel, Marta Pérez e Sabela Sanromán).
+  </footer>
+
+  <script>
+    function mostrarInfo(ph) {
+      const texto = datos[ph] || "Sen información.";
+      document.getElementById("infoBox").innerText = texto;
+    }
+  </script>
+</body>
+</html>
